@@ -3,19 +3,23 @@ import {Header} from "./components/Header/Header";
 import {Home} from "./components/Home/Home";
 import {Login} from "./components/Login/Login";
 import {Register} from "./components/Register/Register";
+import  {Routes,Route} from 'react-router-dom'
+
 
 function App() {
+
     return (
         <div id="box">
+
             <Header/>
+            <main id="main-content">
+                <Routes>
+                    <Route path={"/"} element={<Home/>}/>
+                    <Route path={"login"} element={<Login/>}/>
+                    <Route path={"register"} element={<Register/>}/>
+                </Routes>
+            </main>
 
-            <main id="main-content"></main>
-
-            <Home/>
-            {/* Login Page ( Only for Guest users ) */}
-            <Login/>
-            {/* Register Page ( Only for Guest users ) */}
-            <Register/>
             {/* Create Page ( Only for logged-in users ) */}
             <section id="create-page" className="auth">
                 <form id="create">
