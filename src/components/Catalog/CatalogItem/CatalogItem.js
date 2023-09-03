@@ -8,7 +8,7 @@ export const CatalogItem=({gameOne})=>{
                 <h6>{gameOne.category}</h6>
                 <h2>{gameOne.title}</h2>
 
-                <Link to="details" className="details-button">
+                <Link to={`/catalog/${gameOne._id}`} className="details-button">
                     Details
                 </Link>
             </div>
