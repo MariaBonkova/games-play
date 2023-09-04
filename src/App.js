@@ -3,7 +3,7 @@ import {Header} from "./components/Header/Header";
 import {Home} from "./components/Home/Home";
 import {Login} from "./components/Login/Login";
 import {Register} from "./components/Register/Register";
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, useNavigate} from 'react-router-dom'
 import {CreateGame} from "./components/CreateGame/CreateGame";
 import {Catalog} from "./components/Catalog/Catalog";
 import {useEffect, useState} from "react";
@@ -15,7 +15,7 @@ import uniqid from "uniqid";
 
 function App() {
     const [games, setGame] = useState([]);
-
+const navigate= useNavigate();
     const addComment = (gameId, comment) => {
         setGame(state => {
             const game = state.find(x => x._id === gameId);
@@ -45,6 +45,7 @@ function App() {
             }
 
         ])
+        navigate("/catalog")
     }
 
 
