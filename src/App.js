@@ -9,6 +9,7 @@ import {Catalog} from "./components/Catalog/Catalog";
 import {useEffect, useState} from "react";
 import {getAll} from "./service/GameService";
 import {Details} from "./components/Details/Details";
+import {LatestGame} from "./components/LatestGame/LatestGame";
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
                 </Routes>
             </main>
 
-            {/* Create Page ( Only for logged-in users ) */}
+
 
             {/* Edit Page ( Only for the creator )*/}
             <section id="edit-page" className="auth">
