@@ -6,9 +6,13 @@ export const Details = ({games, addComment}) => {
     const game = games.find(x => x._id === gameId);
 
     const [comment, setComment] = useState({
-         username: '',
-         comment: '',
+        username: '',
+        comment: '',
     });
+    const [error, setError] = useState({
+        username: '',
+        comment: '',
+    })
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -23,6 +27,21 @@ export const Details = ({games, addComment}) => {
         }))
 
     }
+    const validate = (e) => {
+        let message = "";
+        let value = e.target.value
+
+        if (value.length < 4) {
+            message = "must be more than 4 characters"
+        } else if (value.length > 8) {
+            message = "must by less than 8"
+        }
+
+        setError(err => ({
+            ...err,
+            username: message,
+        }));
+    }
 
     return (<section id="game-details">
         <h1>Game Details</h1>
@@ -36,25 +55,21 @@ export const Details = ({games, addComment}) => {
             <p className="text">
                 {game.summary}
             </p>
-            {/* Bonus ( for Guests and Users ) */}
             <div className="details-comments">
                 <h2>Comments:</h2>
-                <ul >
-
-                    {game.comments?.map(x=>
-                        <li key={comment._id} className="comment" >
+                <ul>
+                    {game.comments?.map(x =>
+                        <li key={comment._id} className="comment">
                             <p>{x}</p>
                         </li>
                     )}
-
                     {!game.comments &&
                         <p className="no-comment">No comments.</p>
                     }
-
                 </ul>
 
             </div>
-            {/* Edit/Delete buttons ( Only for creator of this game )  */}
+
             <div className="buttons">
                 <a href="#" className="button">
                     Edit
@@ -72,10 +87,12 @@ export const Details = ({games, addComment}) => {
                     type="text"
                     name="username"
                     placeholder="Mara"
+                    onBlur={validate}
                     onChange={commentChangeHandler}
                     value={comment.username}
-
                 />
+                {error.username &&
+                    <div>{error.username}</div>}
                 <textarea
                     name="comment"
                     placeholder="text..."

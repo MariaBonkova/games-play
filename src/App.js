@@ -44,7 +44,8 @@ const navigate= useNavigate();
                 _id:uniqid()
             }
 
-        ])
+        ]);
+
         navigate("/catalog")
     }
 
@@ -91,10 +92,6 @@ const navigate= useNavigate();
                     </div>
                 </form>
             </section>
-            {/*Details Page*/}
-
-            {/* Catalogue */}
-
         </div>
 
     );
