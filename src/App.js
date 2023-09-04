@@ -9,7 +9,8 @@ import {Catalog} from "./components/Catalog/Catalog";
 import {useEffect, useState} from "react";
 import {getAll} from "./service/GameService";
 import {Details} from "./components/Details/Details";
-import {LatestGame} from "./components/LatestGame/LatestGame";
+import uniqid from "uniqid";
+
 
 
 function App() {
@@ -35,6 +36,17 @@ function App() {
         })
     }, []);
 
+    const addGameHandler=(createGame)=>{
+        setGame(state=>[
+            ...state,
+            {
+                createGame,
+                _id:uniqid()
+            }
+
+        ])
+    }
+
 
     return (
         <div id="box">
@@ -45,7 +57,7 @@ function App() {
                     <Route path={"/"} element={<Home games={games}/>}/>
                     <Route path={"login"} element={<Login/>}/>
                     <Route path={"register"} element={<Register/>}/>
-                    <Route path={"create"} element={<CreateGame/>}/>
+                    <Route path={"create"} element={<CreateGame addGameHandler={addGameHandler}/>}/>
                     <Route path={"catalog"} element={<Catalog games={games}/>}/>
                     <Route path={"catalog/:gameId"} element={<Details games={games} addComment={addComment}/>}/>
                 </Routes>
