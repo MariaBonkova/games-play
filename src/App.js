@@ -14,14 +14,14 @@ import {Details} from "./components/Details/Details";
 function App() {
     const [games, setGame] = useState([]);
 
-    const addComment =(gameId, comment)=>{
-        setGame(state=>{
-            const game = state.find(x=>x._id === gameId);
-            const comments =game.comments || [];
+    const addComment = (gameId, comment) => {
+        setGame(state => {
+            const game = state.find(x => x._id === gameId);
+            const comments = game.comments || [];
             comments.push(comment);
             return [
-                ...state.filter(x=>x._id !==gameId),
-                {...game,comments},
+                ...state.filter(x => x._id !== gameId),
+                {...game, comments},
             ];
         })
 
@@ -46,7 +46,7 @@ function App() {
                     <Route path={"register"} element={<Register/>}/>
                     <Route path={"create"} element={<CreateGame/>}/>
                     <Route path={"catalog"} element={<Catalog games={games}/>}/>
-                    <Route path ={"catalog/:gameId"} element={<Details games={games}/>}/>
+                    <Route path={"catalog/:gameId"} element={<Details games={games} addComment={addComment}/>}/>
                 </Routes>
             </main>
 

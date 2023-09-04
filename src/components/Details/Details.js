@@ -6,8 +6,8 @@ export const Details = ({games, addComment}) => {
     const game = games.find(x => x._id === gameId);
 
     const [comment, setComment] = useState({
-        // username: '',
-        // comment: '',
+         username: '',
+         comment: '',
     });
 
     const submitHandler = (e) => {
@@ -39,19 +39,20 @@ export const Details = ({games, addComment}) => {
             {/* Bonus ( for Guests and Users ) */}
             <div className="details-comments">
                 <h2>Comments:</h2>
-                <ul>
-                    {comment &&
-                        <li className="comment">
-                        <p>{comment.value}</p>
-                    </li>
+                <ul >
+
+                    {game.comments?.map(x=>
+                        <li key={comment._id} className="comment" >
+                            <p>{x}</p>
+                        </li>
+                    )}
+
+                    {!game.comments &&
+                        <p className="no-comment">No comments.</p>
                     }
 
-                    <li className="comment">
-                        <p>Content: The best game.</p>
-                    </li>
                 </ul>
-                {/* Display paragraph: If there are no games in the database */}
-                <p className="no-comment">No comments.</p>
+
             </div>
             {/* Edit/Delete buttons ( Only for creator of this game )  */}
             <div className="buttons">
@@ -67,19 +68,19 @@ export const Details = ({games, addComment}) => {
         <article className="create-comment">
             <label>Add new comment:</label>
             <form className="form" onSubmit={submitHandler}>
-                {/*<input*/}
-                {/*    type="text"*/}
-                {/*    name="username"*/}
-                {/*    placeholder="Mara"*/}
-                {/*    onChange={commentChangeHandler}*/}
-                {/*    value={comment.username}*/}
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Mara"
+                    onChange={commentChangeHandler}
+                    value={comment.username}
 
-                {/*/>*/}
+                />
                 <textarea
                     name="comment"
                     placeholder="text..."
                     onChange={commentChangeHandler}
-                    value={comment.value}
+                    value={comment.comment}
                 />
 
 
