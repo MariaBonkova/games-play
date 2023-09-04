@@ -12,7 +12,7 @@ export const Details = ({games, addComment}) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        addComment(gameId, `${comment}`);
+        addComment(gameId, `${comment.username} ${comment.comment}`);
         console.log(comment);
 
     }
