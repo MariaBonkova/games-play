@@ -1,8 +1,9 @@
-import {useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
 
 export const Details = ({games, addComment}) => {
     const {gameId} = useParams();
+    const navigate=useNavigate()
     const game = games.find(x => x._id === gameId);
 
     const [comment, setComment] = useState({
@@ -27,10 +28,10 @@ export const Details = ({games, addComment}) => {
         }))
 
     }
+
     const validate = (e) => {
         let message = "";
         let value = e.target.value
-
         if (value.length < 4) {
             message = "must be more than 4 characters"
         } else if (value.length > 8) {
@@ -42,6 +43,19 @@ export const Details = ({games, addComment}) => {
             username: message,
         }));
     }
+    const  validateComment=(e)=>{
+        let message = "";
+        let value = e.target.value
+        if(value.length<5){
+            message="must be more than 5 characters"
+        }else if(value.length>10){
+            message="must by less than 10"
+        }
+        setError(err=>({
+            ...err,
+            [e.target.name]:message,
+        }));
+    }
 
     return (<section id="game-details">
         <h1>Game Details</h1>
@@ -50,7 +64,7 @@ export const Details = ({games, addComment}) => {
                 <img className="game-img" src={game.imageUrl}/>
                 <h1>{game.title}</h1>
                 <span className="levels">MaxLevel: {game.maxLevel}</span>
-                <p className="type">{game.categories}</p>
+                <p className="type">{games.categories}</p>
             </div>
             <p className="text">
                 {game.summary}
@@ -71,9 +85,9 @@ export const Details = ({games, addComment}) => {
             </div>
 
             <div className="buttons">
-                <a href="#" className="button">
+                <Link to={`/catalog/${game._id}/edit`} className="button">
                     Edit
-                </a>
+                </Link>
                 <a href="#" className="button">
                     Delete
                 </a>
@@ -92,19 +106,23 @@ export const Details = ({games, addComment}) => {
                     value={comment.username}
                 />
                 {error.username &&
-                    <div>{error.username}</div>}
+                    <div style={{color:"red"}}>{error.username}</div>}
+
                 <textarea
                     name="comment"
                     placeholder="text..."
                     onChange={commentChangeHandler}
                     value={comment.comment}
+                    onBlur={validateComment}
                 />
-
+                {error.comment &&
+                    <div style={{color:"red"}}>{error.comment}</div>}
 
                 <input
                     className="btn submit"
                     type="submit"
                     value="Add Comment"
+
                 />
 
             </form>

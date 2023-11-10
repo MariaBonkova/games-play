@@ -10,12 +10,18 @@ import {useEffect, useState} from "react";
 import {getAll} from "./service/GameService";
 import {Details} from "./components/Details/Details";
 import uniqid from "uniqid";
-
-
+import {EditGame} from "./components/EditGame/EditGame";
+import {AuthContext} from "./context/AuthContex";
 
 function App() {
     const [games, setGame] = useState([]);
-const navigate= useNavigate();
+    const [auth,setAuth]=useState({})
+    const navigate = useNavigate();
+
+    const userLogin =(authData)=>{
+        setAuth(authData)//тук може да се правят проверки
+    }
+
     const addComment = (gameId, comment) => {
         setGame(state => {
             const game = state.find(x => x._id === gameId);
@@ -36,12 +42,12 @@ const navigate= useNavigate();
         })
     }, []);
 
-    const addGameHandler=(createGame)=>{
-        setGame(state=>[
+    const addGameHandler = (createGame) => {
+        setGame(state => [
             ...state,
             {
                 createGame,
-                _id:uniqid()
+                _id: uniqid()
             }
 
         ]);
@@ -51,48 +57,25 @@ const navigate= useNavigate();
 
 
     return (
-        <div id="box">
+        // eslint-disable-next-line react/jsx-no-undef
+        <AuthContext.Provider value={{user:auth,userLogin}}>
+            <div id="box">
 
-            <Header/>
-            <main id="main-content">
-                <Routes>
-                    <Route path={"/"} element={<Home games={games}/>}/>
-                    <Route path={"login"} element={<Login/>}/>
-                    <Route path={"register"} element={<Register/>}/>
-                    <Route path={"create"} element={<CreateGame addGameHandler={addGameHandler}/>}/>
-                    <Route path={"catalog"} element={<Catalog games={games}/>}/>
-                    <Route path={"catalog/:gameId"} element={<Details games={games} addComment={addComment}/>}/>
-                </Routes>
-            </main>
+                <Header/>
+                <main id="main-content">
+                    <Routes>
+                        <Route path={"/"} element={<Home games={games}/>}/>
+                        <Route path={"login"} element={<Login/>}/>
+                        <Route path={"register"} element={<Register/>}/>
+                        <Route path={"create"} element={<CreateGame addGameHandler={addGameHandler}/>}/>
+                        <Route path={"catalog"} element={<Catalog games={games}/>}/>
+                        <Route path={"catalog/:gameId"} element={<Details games={games} addComment={addComment}/>}/>
+                        <Route path={"catalog/:gameId/edit"} element={<EditGame/>}/>
+                    </Routes>
+                </main>
+            </div>
+        </AuthContext.Provider>
 
-
-
-            {/* Edit Page ( Only for the creator )*/}
-            <section id="edit-page" className="auth">
-                <form id="edit">
-                    <div className="container">
-                        <h1>Edit Game</h1>
-                        <label htmlFor="leg-title">Legendary title:</label>
-                        <input type="text" id="title" name="title" defaultValue=""/>
-                        <label htmlFor="category">Category:</label>
-                        <input type="text" id="category" name="category" defaultValue=""/>
-                        <label htmlFor="levels">MaxLevel:</label>
-                        <input
-                            type="number"
-                            id="maxLevel"
-                            name="maxLevel"
-                            min={1}
-                            defaultValue=""
-                        />
-                        <label htmlFor="game-img">Image:</label>
-                        <input type="text" id="imageUrl" name="imageUrl" defaultValue=""/>
-                        <label htmlFor="summary">Summary:</label>
-                        <textarea name="summary" id="summary" defaultValue={""}/>
-                        <input className="btn submit" type="submit" defaultValue="Edit Game"/>
-                    </div>
-                </form>
-            </section>
-        </div>
 
     );
 }

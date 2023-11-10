@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export const CreateGame=({addGameHandler})=>{
+export const CreateGame=({addGameHandler,})=>{
     const [createGame,setCreateGame]=useState({
         title:'',
         category:'',
@@ -16,12 +16,15 @@ export const CreateGame=({addGameHandler})=>{
 
         console.log(createGame);
        addGameHandler(createGame);
+     
+
     }
 
     const change =(e)=>{
         setCreateGame(state=>({
             ...state,
             [e.target.name]:e.target.value
+
         }))
 
     }

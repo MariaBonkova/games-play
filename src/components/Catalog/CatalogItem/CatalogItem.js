@@ -1,7 +1,9 @@
 import {Link} from "react-router-dom";
 
 export const CatalogItem=({gameOne})=>{
+    console.log(gameOne);
     return (
+
         <div className="allGames">
             <div className="allGames-info">
                 <img src={gameOne.imageUrl}/>
