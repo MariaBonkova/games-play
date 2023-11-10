@@ -6,20 +6,24 @@ import {Register} from "./components/Register/Register";
 import {Routes, Route, useNavigate} from 'react-router-dom'
 import {CreateGame} from "./components/CreateGame/CreateGame";
 import {Catalog} from "./components/Catalog/Catalog";
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {getAll} from "./service/GameService";
 import {Details} from "./components/Details/Details";
 import uniqid from "uniqid";
 import {EditGame} from "./components/EditGame/EditGame";
 import {AuthContext} from "./context/AuthContex";
+import {Logout} from "./components/Logout/Logout";
 
 function App() {
     const [games, setGame] = useState([]);
-    const [auth,setAuth]=useState({})
+    const [auth, setAuth] = useState({})
     const navigate = useNavigate();
 
-    const userLogin =(authData)=>{
+    const userLogin = (authData) => {
         setAuth(authData)//тук може да се правят проверки
+    }
+    const userLogout =()=>{
+        setAuth({});
     }
 
     const addComment = (gameId, comment) => {
@@ -58,7 +62,8 @@ function App() {
 
     return (
         // eslint-disable-next-line react/jsx-no-undef
-        <AuthContext.Provider value={{user:auth,userLogin}}>
+        <AuthContext.Provider value={{user: auth, userLogin,userLogout
+        }}>
             <div id="box">
 
                 <Header/>
@@ -66,7 +71,12 @@ function App() {
                     <Routes>
                         <Route path={"/"} element={<Home games={games}/>}/>
                         <Route path={"login"} element={<Login/>}/>
-                        <Route path={"register"} element={<Register/>}/>
+                        <Route path={"register"}
+                               element={
+                            <Suspense fallback={<span>Loading...</span>}>
+                                <Register/>
+                            </Suspense>}/>
+                        <Route path={"logout"} element={<Logout/>}/>
                         <Route path={"create"} element={<CreateGame addGameHandler={addGameHandler}/>}/>
                         <Route path={"catalog"} element={<Catalog games={games}/>}/>
                         <Route path={"catalog/:gameId"} element={<Details games={games} addComment={addComment}/>}/>
