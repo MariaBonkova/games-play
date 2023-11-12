@@ -13,10 +13,12 @@ import uniqid from "uniqid";
 import {EditGame} from "./components/EditGame/EditGame";
 import {AuthContext} from "./context/AuthContex";
 import {Logout} from "./components/Logout/Logout";
+import {useLocalStorage} from "./hooks/useLocalStorage";
 
 function App() {
     const [games, setGame] = useState([]);
-    const [auth, setAuth] = useState({})
+    const [auth, setAuth] = useLocalStorage('auth',{}) //тук ползваме къстам хука вместо useState, защото реално ние правим копие на стейта в къстам хука
+
     const navigate = useNavigate();
 
     const userLogin = (authData) => {
