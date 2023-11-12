@@ -1,7 +1,41 @@
-export const Register =()=>{
-    return(
+import {Link} from "react-router-dom";
+
+import * as autService from "../../service/authService";
+import {useContext} from "react";
+import {AuthContext} from "../../context/AuthContex";
+import {useNavigate} from "react-router-dom";
+
+
+export const Register = () => {
+
+    const {userLogin} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const onSubmit = (e) => {
+
+        e.preventDefault();
+
+        const formData = (new FormData(e.target));
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const confirmPassword = formData.get('confirm-password');
+
+        if (password !== confirmPassword) {
+            return;
+        }
+
+        autService.register(email, password)
+            .then(authData => {
+                console.log(authData)
+                userLogin(authData);
+                navigate('/')
+            })
+
+
+    };
+
+    return (
         <section id="register-page" className="content auth">
-            <form id="register">
+            <form id="register" onSubmit={onSubmit}>
                 <div className="container">
                     <div className="brand-logo"/>
                     <h1>Register</h1>
@@ -19,7 +53,7 @@ export const Register =()=>{
                     <input className="btn submit" type="submit" defaultValue="Register"/>
                     <p className="field">
           <span>
-            If you already have profile click <a href="#">here</a>
+              If you already have profile click <Link to={'/login'}>here</Link>
           </span>
                     </p>
                 </div>
